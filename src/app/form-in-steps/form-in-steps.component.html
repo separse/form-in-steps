@@ -1,0 +1,116 @@
+<p-card class="container">
+    <!-- steps  -->
+    <p-steps [model]="steps" [activeIndex]="activeIndex"></p-steps>
+    <!-- content  -->
+    <section class="content" [ngSwitch]="activeIndex">
+        <!-- step 1: image -->
+        <p-card *ngSwitchCase="0">
+            <input *ngIf="!imageUrl" type='file' accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)" class="w-100">
+            <button *ngIf="imageUrl" pButton type="button" class="p-button-danger" label="Remove" (click)="removeImage()"></button>
+            <div class="my-1">
+                <img [src]="imageUrl" height="200">
+            </div>
+            <button pButton class="button p-button-success" type="button" label="Next" [disabled]="!imageUrl" (click)="changeStep(1)"></button>
+        </p-card>
+        <!-- step 2: form -->
+        <p-card *ngSwitchCase="1" [formGroup]="step2Form">
+            <div class="grid-cntainer">
+                <div class="field">
+                    <label for="amount">Amount</label>
+                    <p-inputNumber formControlName="amount" [useGrouping]="false" id="amount"></p-inputNumber>
+                </div>
+                <div class="field">
+                    <label for="date">Date</label>
+                    <p-calendar formControlName="date" [maxDate]="fiveDaysLater" id="date"></p-calendar>
+                </div>
+                <div class="field">
+                    <label for="status">Status</label>
+                    <p-dropdown [options]="statusList" formControlName="status" placeholder="select an option" id="status"></p-dropdown>
+                </div>
+                <div class="field">
+                    <label for="sourceOfFund">Source of Fund</label>
+                    <input type="text" pInputText formControlName="sourceOfFund" id="sourceOfFund"/>
+                </div>
+            </div>
+            <span class="p-buttonset">
+                <button pButton type="button" label="Previous" class="p-button-warning" (click)="changeStep(0)"></button>
+                <button pButton type="button" label="Next" class="p-button-success" [disabled]="step2Form.invalid" (click)="changeStep(2)"></button>
+            </span> 
+        </p-card>
+        <!-- step 3: table -->
+        <p-card *ngSwitchCase="2" [formGroup]="step3Form">
+            <div class="card">
+                <h5>Select One Person</h5>
+                <p-table [value]="personList" selectionMode="single" [(selection)]="person" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Position</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-person>
+                        <tr [pSelectableRow]="person">
+                            <td>{{ person.code }}</td>
+                            <td>{{ person.name }}</td>
+                            <td>{{ person.position }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <span class="p-buttonset">
+                <button pButton type="button" label="Previous" class="p-button-warning" (click)="changeStep(1)"></button>
+                <button pButton type="button" label="Next" class="p-button-success" [disabled]="!person" (click)="changeStep(3)"></button>
+            </span>          
+        </p-card>
+        <!-- step 4: review -->
+        <p-card *ngSwitchCase="3">
+            <div [formGroup]="step2Form">
+                <h3>Image</h3>
+                <div class="my-1">
+                    <img [src]="imageUrl" height="200">
+                </div>
+
+                <h3>Form</h3>
+                <div class="grid-cntainer">
+                    <div class="field">
+                        <label for="amount">Amount</label>
+                        <p-inputNumber formControlName="amount" [useGrouping]="false" id="amount" [readonly]="true"></p-inputNumber>
+                    </div>
+                    <div class="field">
+                        <label for="date">Date</label>
+                        <p-calendar formControlName="date" [maxDate]="fiveDaysLater" id="date" [readonlyInput]="true"></p-calendar>
+                    </div>
+                    <div class="field">
+                        <label for="status">Status</label>
+                        <p-dropdown [options]="statusList" formControlName="status" placeholder="select an option" id="status" [readonly]="true"></p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="sourceOfFund">Source of Fund</label>
+                        <input type="text" pInputText formControlName="sourceOfFund" id="sourceOfFund" [readonly]="true"/>
+                    </div>
+                </div>
+
+                <h3>Person</h3>      
+                <p-table [value]="[person]" responsiveLayout="scroll">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Position</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-person>
+                        <tr>
+                            <td>{{ person.code }}</td>
+                            <td>{{ person.name }}</td>
+                            <td>{{ person.position }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <button pButton class="button p-button-warning" type="button" label="Previous" (click)="changeStep(2)"></button>
+        </p-card>
+    </section>
+    <!-- button group  -->
+</p-card> 

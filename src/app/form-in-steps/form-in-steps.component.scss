@@ -1,0 +1,36 @@
+.container {
+    margin: 5rem;
+}
+.content {
+    margin: 3rem 0;
+}
+.button {
+    margin-top: 2rem;
+}
+.grid-cntainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+.field {
+    display: flex;
+    flex-direction: column;
+}
+::ng-deep {
+    .p-inputnumber, .p-calendar, .p-dropdown {
+        width: 100%;
+    }
+}
+label {
+    margin-bottom: .3rem;
+}
+.card {
+    margin-bottom: 2rem;
+}
+.w-100 {
+    width: 100%;
+}
+.my-1 {
+    margin: 1rem 0;
+}
