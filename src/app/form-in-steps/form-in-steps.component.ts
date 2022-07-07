@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { FormInStepsFacade } from './+state/form-in-steps.facade';
 
 @Component({
@@ -8,9 +8,10 @@ import { FormInStepsFacade } from './+state/form-in-steps.facade';
   templateUrl: './form-in-steps.component.html',
   styleUrls: ['./form-in-steps.component.scss']
 })
-export class FormInStepsComponent implements OnInit {
+export class FormInStepsComponent implements OnInit, OnDestroy {
 
   activeIndex!: number;
+  subscription!: Subscription;
 
   steps: MenuItem[]  = [
     {label: 'Upload Image'},
@@ -22,9 +23,13 @@ export class FormInStepsComponent implements OnInit {
   constructor(private facade: FormInStepsFacade) { }
 
   ngOnInit(): void {
-    this.facade.activeIndex$.subscribe(res => {
+    this.subscription = this.facade.activeIndex$.subscribe(res => {
       this.activeIndex = res;
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }
