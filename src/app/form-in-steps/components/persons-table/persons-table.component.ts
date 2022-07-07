@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FormInStepsFacade } from '../../+state/form-in-steps.facade';
 
 @Component({
@@ -6,7 +7,7 @@ import { FormInStepsFacade } from '../../+state/form-in-steps.facade';
   templateUrl: './persons-table.component.html',
   styleUrls: ['../../form-in-steps.component.scss'],
 })
-export class PersonsTableComponent implements OnInit {
+export class PersonsTableComponent implements OnInit, OnDestroy {
 
   person!: any;
 
@@ -38,10 +39,12 @@ export class PersonsTableComponent implements OnInit {
     },
   ];
 
+  subscription!: Subscription;
+
   constructor(private facade: FormInStepsFacade) { }
 
   ngOnInit(): void {
-    this.facade.person$.subscribe(res => {
+    this.subscription = this.facade.person$.subscribe(res => {
       if(res) this.person = res;
     })
   }
@@ -49,6 +52,10 @@ export class PersonsTableComponent implements OnInit {
   changeStep(activeIndex: number): void {
     this.facade.selectPerson(this.person);
     this.facade.changeActiveIndex(activeIndex);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

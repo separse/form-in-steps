@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FormInStepsFacade } from '../../+state/form-in-steps.facade';
 
 @Component({
@@ -9,11 +10,12 @@ import { FormInStepsFacade } from '../../+state/form-in-steps.facade';
 export class ImageUploaderComponent implements OnInit {
 
   imageUrl!: string;
+  subscription!: Subscription;
 
   constructor(private facade: FormInStepsFacade) { }
 
   ngOnInit(): void {
-    this.facade.imageUrl$.subscribe(res => {
+    this.subscription = this.facade.imageUrl$.subscribe(res => {
       this.imageUrl = res;
     })
   }
@@ -34,6 +36,10 @@ export class ImageUploaderComponent implements OnInit {
 
   changeStep(activeIndex: number): void {
     this.facade.changeActiveIndex(activeIndex);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

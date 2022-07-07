@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { FormInStepsFacade } from '../../+state/form-in-steps.facade';
 
 @Component({
@@ -11,6 +12,7 @@ export class ReviewComponent implements OnInit {
   
   imageUrl$ = this.facade.imageUrl$;
   person$ = this.facade.person$;
+  subscription!: Subscription;
 
   infoForm = this.fb.group({
     amount: [null, Validators.required],
@@ -22,7 +24,7 @@ export class ReviewComponent implements OnInit {
   constructor(private fb: FormBuilder, private facade: FormInStepsFacade) { } 
 
   ngOnInit(): void {
-    this.facade.info$.subscribe(res => {
+    this.subscription = this.facade.info$.subscribe(res => {
       this.infoForm.setValue(res);
     });
   }
@@ -30,5 +32,10 @@ export class ReviewComponent implements OnInit {
   changeStep(activeIndex: number): void {
     this.facade.changeActiveIndex(activeIndex);
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
 
 }
