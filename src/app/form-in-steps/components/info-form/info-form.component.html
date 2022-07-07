@@ -1,0 +1,24 @@
+<p-card [formGroup]="infoForm">
+    <div class="grid-cntainer">
+        <div class="field">
+            <label for="amount">Amount</label>
+            <p-inputNumber formControlName="amount" [useGrouping]="false" id="amount"></p-inputNumber>
+        </div>
+        <div class="field">
+            <label for="date">Date</label>
+            <p-calendar formControlName="date" [maxDate]="fiveDaysLater" id="date"></p-calendar>
+        </div>
+        <div class="field">
+            <label for="status">Status</label>
+            <p-dropdown [options]="statusList" formControlName="status" placeholder="select an option" id="status"></p-dropdown>
+        </div>
+        <div class="field">
+            <label for="sourceOfFund">Source of Fund</label>
+            <input type="text" pInputText formControlName="sourceOfFund" id="sourceOfFund"/>
+        </div>
+    </div>
+    <span class="p-buttonset">
+        <button pButton type="button" label="Previous" class="p-button-warning" (click)="changeStep(0)"></button>
+        <button pButton type="button" label="Next" class="p-button-success" [disabled]="infoForm.invalid" (click)="changeStep(2)"></button>
+    </span> 
+</p-card>

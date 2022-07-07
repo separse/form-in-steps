@@ -1,0 +1,8 @@
+<p-card>
+    <input *ngIf="!imageUrl" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)" type="file" class="w-100">
+    <button *ngIf="imageUrl" pButton type="button" class="p-button-danger" label="Remove" (click)="removeImage()"></button>
+    <div class="my-1">
+        <img [src]="imageUrl" height="200">
+    </div>
+    <button pButton class="button p-button-success" type="button" label="Next" [disabled]="!imageUrl" (click)="changeStep(1)"></button>
+</p-card>

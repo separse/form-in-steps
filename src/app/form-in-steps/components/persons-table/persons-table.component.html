@@ -1,0 +1,25 @@
+<p-card>
+    <div class="card">
+        <h5>Select One Person</h5>
+        <p-table [value]="personList" selectionMode="single" [(selection)]="person" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-person>
+                <tr [pSelectableRow]="person">
+                    <td>{{ person.code }}</td>
+                    <td>{{ person.name }}</td>
+                    <td>{{ person.position }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <span class="p-buttonset">
+        <button pButton type="button" label="Previous" class="p-button-warning" (click)="changeStep(1)"></button>
+        <button pButton type="button" label="Next" class="p-button-success" [disabled]="!person" (click)="changeStep(3)"></button>
+    </span>          
+</p-card>

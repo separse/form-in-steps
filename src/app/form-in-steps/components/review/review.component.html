@@ -1,0 +1,49 @@
+<p-card>
+    <div *ngIf="imageUrl$ | async as imageUrl">
+        <h3>Image</h3>
+        <div class="my-1">
+            <img [src]="imageUrl" height="200">
+        </div>
+    </div>
+    <div [formGroup]="infoForm">
+        <h3>Info</h3>
+        <div class="grid-cntainer">
+            <div class="field">
+                <label for="amount">Amount</label>
+                <p-inputNumber formControlName="amount" [useGrouping]="false" id="amount" [readonly]="true"></p-inputNumber>
+            </div>
+            <div class="field">
+                <label for="date">Date</label>
+                <p-calendar formControlName="date" id="date" [readonlyInput]="true"></p-calendar>
+            </div>
+            <div class="field">
+                <label for="status">Status</label>
+                <input type="text" pInputText formControlName="status" id="status" [readonly]="true"/>
+            </div>
+            <div class="field">
+                <label for="sourceOfFund">Source of Fund</label>
+                <input type="text" pInputText formControlName="sourceOfFund" id="sourceOfFund" [readonly]="true"/>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="person$ | async as person">
+        <h3>Person</h3>      
+        <p-table [value]="[person]" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-person>
+                <tr>
+                    <td>{{ person.code }}</td>
+                    <td>{{ person.name }}</td>
+                    <td>{{ person.position }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <button pButton class="button p-button-warning" type="button" label="Previous" (click)="changeStep(2)"></button>
+</p-card>
